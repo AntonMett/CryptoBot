@@ -59,11 +59,11 @@ def run_bot():
                     make_new_sell_order(1, minimal_BTC_sell_price)
                     time.sleep(2)
             elif available_currency('BTC') < 0.0001:
-                if current_btcusdt_price() > maximum_BTC_buy_price:
-                    make_new_buy_order(0.995)
-                    time.sleep(2)
-                elif current_btcusdt_price() <= maximum_BTC_buy_price:
+                if current_btcusdt_price() >= maximum_BTC_buy_price:
                     make_new_buy_order(1, maximum_BTC_buy_price)
+                    time.sleep(2)
+                elif current_btcusdt_price() < maximum_BTC_buy_price:
+                    make_new_buy_order(0.995)
                     time.sleep(2)
         else:
             time.sleep(1)
