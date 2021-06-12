@@ -49,24 +49,29 @@ def make_new_buy_order(multiply, btcusdt=current_btcusdt_price()):
 
 def run_bot():
     while True:
+        try:
 
-        if not list(my_orders('BTCUSDT', 'open')):
-            if available_currency('BTC') >= 0.0001:
-                if (current_btcusdt_price()) > minimal_BTC_sell_price:
-                    make_new_sell_order(1.005)
-                    time.sleep(2)
-                elif current_btcusdt_price() <= minimal_BTC_sell_price:
-                    make_new_sell_order(1, minimal_BTC_sell_price)
-                    time.sleep(2)
-            elif available_currency('BTC') < 0.0001:
-                if current_btcusdt_price() > maximum_BTC_buy_price:
-                    make_new_buy_order(1, maximum_BTC_buy_price)
-                    time.sleep(2)
-                elif current_btcusdt_price() <= maximum_BTC_buy_price:
-                    make_new_buy_order(0.995)
-                    time.sleep(2)
-        else:
-            time.sleep(1)
+            if not list(my_orders('BTCUSDT', 'open')):
+                if available_currency('BTC') >= 0.0001:
+                    if (current_btcusdt_price()) > minimal_BTC_sell_price:
+                        make_new_sell_order(1.005)
+                        time.sleep(2)
+                    elif current_btcusdt_price() <= minimal_BTC_sell_price:
+                        make_new_sell_order(1, minimal_BTC_sell_price)
+                        time.sleep(2)
+                elif available_currency('BTC') < 0.0001:
+                    if current_btcusdt_price() > maximum_BTC_buy_price:
+                        make_new_buy_order(1, maximum_BTC_buy_price)
+                        time.sleep(2)
+                    elif current_btcusdt_price() <= maximum_BTC_buy_price:
+                        make_new_buy_order(0.995)
+                        time.sleep(2)
+            else:
+                time.sleep(2)
+        except ValueError as error:
+            print(error)
+            print('OOOPS! Something went wrong. Retrying...')
+            time.sleep(2)
 
 
 if __name__ == "__main__":
